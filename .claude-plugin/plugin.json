@@ -1,0 +1,5 @@
+{
+  "name": "xero-accounting-manager",
+  "version": "2.1.9",
+  "description": "Xero accounting operations including invoices, contacts, payments, reports, quotes, and more via direct API"
+}
