@@ -3,7 +3,7 @@
 
 Xero accounting operations including invoices, contacts, payments, reports, quotes, and more via direct API
 
-![Version](https://img.shields.io/badge/version-2.1.9-blue) ![License: MIT](https://img.shields.io/badge/License-MIT-green) ![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
+![Version](https://img.shields.io/badge/version-2.2.0-blue) ![License: MIT](https://img.shields.io/badge/License-MIT-green) ![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
 
 ## Features
 
@@ -21,7 +21,7 @@ Xero accounting operations including invoices, contacts, payments, reports, quot
 ```bash
 git clone https://github.com/YOUR_GITHUB_USER/claude-code-plugin-xero.git
 cd claude-code-plugin-xero
-cp scripts/config.template.json scripts/config.json  # fill in your credentials
+cp config.template.json config.json  # fill in your credentials
 cd scripts && npm install
 ```
 
@@ -32,20 +32,11 @@ node scripts/dist/cli.js get-connections
 ## Installation
 
 1. Clone this repository
-2. Copy `scripts/config.template.json` to `scripts/config.json` and fill in your credentials
+2. Copy `config.template.json` to `config.json` and fill in your credentials
 3. Install dependencies:
    ```bash
    cd scripts && npm install
    ```
-
-## Configuration
-
-Copy `scripts/config.template.json` to `scripts/config.json` and fill in the required values:
-
-| Field | Placeholder |
-|-------|-------------|
-| `xero.clientId` | `YOUR_XERO_CLIENT_ID` |
-| `xero.clientSecret` | `YOUR_XERO_CLIENT_SECRET` |
 
 ## Available Commands
 
@@ -88,49 +79,49 @@ Copy `scripts/config.template.json` to `scripts/config.json` and fill in the req
 
 ```bash
 # Discover tenant IDs (run first time!)
-node scripts/dist/cli.js get-connections
+node /Users/USER/node scripts/dist/cli.js get-connections
 
 # List all invoices
-node scripts/dist/cli.js list-invoices
+node /Users/USER/node scripts/dist/cli.js list-invoices
 
 # Get specific invoice
-node scripts/dist/cli.js get-invoice --id "12345678-1234-1234-1234-123456789012"
+node /Users/USER/node scripts/dist/cli.js get-invoice --id "12345678-1234-1234-1234-123456789012"
 
 # Create an invoice
-node scripts/dist/cli.js create-invoice --contact "ACME Corp" --amount 500 --description "Product sale"
+node /Users/USER/node scripts/dist/cli.js create-invoice --contact "ACME Corp" --amount 500 --description "Product sale"
 
 # List contacts
-node scripts/dist/cli.js list-contacts
+node /Users/USER/node scripts/dist/cli.js list-contacts
 
 # Create contact
-node scripts/dist/cli.js create-contact --name "John Smith" --email "john@example.com"
+node /Users/USER/node scripts/dist/cli.js create-contact --name "John Smith" --email "john@example.com"
 
 # Get profit and loss
-node scripts/dist/cli.js get-profit-and-loss --from-date "2024-01-01" --to-date "2024-12-31"
+node /Users/USER/node scripts/dist/cli.js get-profit-and-loss --from-date "2024-01-01" --to-date "2024-12-31"
 
 # Get trial balance
-node scripts/dist/cli.js get-trial-balance --date "2024-12-31"
+node /Users/USER/node scripts/dist/cli.js get-trial-balance --date "2024-12-31"
 
 # List chart of accounts (uses cache by default)
-node scripts/dist/cli.js list-accounts
+node /Users/USER/node scripts/dist/cli.js list-accounts
 
 # List accounts bypassing cache
-node scripts/dist/cli.js list-accounts --no-cache
+node /Users/USER/node scripts/dist/cli.js list-accounts --no-cache
 
 # Get aged receivables
-node scripts/dist/cli.js get-aged-receivables
+node /Users/USER/node scripts/dist/cli.js get-aged-receivables
 
 # List payments
-node scripts/dist/cli.js list-payments
+node /Users/USER/node scripts/dist/cli.js list-payments
 
 # Clear cache
-node scripts/dist/cli.js clear-cache
+node /Users/USER/node scripts/dist/cli.js clear-cache
 
 # List quotes
-node scripts/dist/cli.js list-quotes
+node /Users/USER/node scripts/dist/cli.js list-quotes
 
 # List overpayments (customer prepayments)
-node scripts/dist/cli.js list-overpayments
+node /Users/USER/node scripts/dist/cli.js list-overpayments
 ```
 
 ## How It Works
