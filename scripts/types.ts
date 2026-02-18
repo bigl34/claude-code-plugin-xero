@@ -777,4 +777,5 @@ export interface CreatePaymentOptions {
   amount: number;
   date?: string;
   reference?: string;
+  currencyRate?: number;
 }
