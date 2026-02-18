@@ -872,6 +872,7 @@ export class XeroClient {
       Amount: options.amount,
       Date: options.date || new Date().toISOString().split("T")[0],
       Reference: options.reference,
+      ...(options.currencyRate !== undefined ? { CurrencyRate: options.currencyRate } : {}),
     };
 
     const response = await this.request<PaymentsResponse>(

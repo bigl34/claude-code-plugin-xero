@@ -212,14 +212,15 @@ const commands = {
       amount: cliTypes.float(0.01).describe("Payment amount"),
       date: z.string().optional().describe("Payment date (YYYY-MM-DD)"),
       reference: z.string().optional().describe("Reference number"),
+      currencyRate: cliTypes.float(0.000001).optional().describe("Exchange rate override"),
       tenantId: z.string().optional().describe("Xero tenant ID"),
     }),
     async (args, client: XeroClient) => {
-      const { id, accountCode, amount, date, reference, tenantId } = args as {
+      const { id, accountCode, amount, date, reference, currencyRate, tenantId } = args as {
         id: string; accountCode: string; amount: number;
-        date?: string; reference?: string; tenantId?: string;
+        date?: string; reference?: string; currencyRate?: number; tenantId?: string;
       };
-      return client.createPayment({ invoiceId: id, accountCode, amount, date, reference, tenantId });
+      return client.createPayment({ invoiceId: id, accountCode, amount, date, reference, currencyRate, tenantId });
     },
     "Create a payment for an invoice"
   ),

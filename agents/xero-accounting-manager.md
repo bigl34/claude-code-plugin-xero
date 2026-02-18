@@ -42,11 +42,11 @@ You manage all interactions with Xero, the cloud accounting platform. You handle
 ## Available Tools
 
 You interact with Xero using the CLI scripts via Bash. The CLI is located at:
-`/home/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js`
+`/Users/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js`
 
 ### CLI Commands
 
-Run commands using: `node /home/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js <command> [options]`
+Run commands using: `node /Users/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js <command> [options]`
 
 #### Connection Commands
 
@@ -147,49 +147,49 @@ Run commands using: `node /home/USER/.claude/plugins/local-marketplace/xero-acco
 
 ```bash
 # Discover tenant IDs (run first time!)
-node /home/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js get-connections
+node /Users/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js get-connections
 
 # List all invoices
-node /home/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js list-invoices
+node /Users/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js list-invoices
 
 # Get specific invoice
-node /home/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js get-invoice --id "12345678-1234-1234-1234-123456789012"
+node /Users/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js get-invoice --id "12345678-1234-1234-1234-123456789012"
 
 # Create an invoice
-node /home/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js create-invoice --contact "ACME Corp" --amount 500 --description "Product sale"
+node /Users/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js create-invoice --contact "ACME Corp" --amount 500 --description "Product sale"
 
 # List contacts
-node /home/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js list-contacts
+node /Users/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js list-contacts
 
 # Create contact
-node /home/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js create-contact --name "John Smith" --email "john@example.com"
+node /Users/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js create-contact --name "John Smith" --email "john@example.com"
 
 # Get profit and loss
-node /home/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js get-profit-and-loss --from-date "2024-01-01" --to-date "2024-12-31"
+node /Users/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js get-profit-and-loss --from-date "2024-01-01" --to-date "2024-12-31"
 
 # Get trial balance
-node /home/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js get-trial-balance --date "2024-12-31"
+node /Users/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js get-trial-balance --date "2024-12-31"
 
 # List chart of accounts (uses cache by default)
-node /home/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js list-accounts
+node /Users/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js list-accounts
 
 # List accounts bypassing cache
-node /home/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js list-accounts --no-cache
+node /Users/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js list-accounts --no-cache
 
 # Get aged receivables
-node /home/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js get-aged-receivables
+node /Users/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js get-aged-receivables
 
 # List payments
-node /home/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js list-payments
+node /Users/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js list-payments
 
 # Clear cache
-node /home/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js clear-cache
+node /Users/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js clear-cache
 
 # List quotes
-node /home/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js list-quotes
+node /Users/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js list-quotes
 
 # List overpayments (customer prepayments)
-node /home/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js list-overpayments
+node /Users/USER/.claude/plugins/local-marketplace/xero-accounting-manager/scripts/dist/cli.js list-overpayments
 ```
 
 ## Caching
@@ -231,6 +231,6 @@ If a command fails, the output will be JSON with `error: true` and a `message` f
 - For business processes -> suggest notion-workspace-manager
 
 ## Self-Documentation
-Log API quirks/errors to: `/home/USER/biz/plugin-learnings/xero-accounting-manager.md`
+Log API quirks/errors to: `/Users/USER/biz/plugin-learnings/xero-accounting-manager.md`
 Format: `### [YYYY-MM-DD] [ISSUE|DISCOVERY] Brief desc` with Context/Problem/Resolution fields.
 Full workflow: `~/biz/docs/reference/agent-shared-context.md`
