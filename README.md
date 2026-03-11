@@ -19,7 +19,7 @@ Xero accounting operations including invoices, contacts, payments, reports, quot
 ## Quick Start
 
 ```bash
-git clone https://github.com/YOUR_GITHUB_USER/claude-code-plugin-xero.git
+git clone https://github.com/bigl34/claude-code-plugin-xero.git
 cd claude-code-plugin-xero
 cp config.template.json config.json  # fill in your credentials
 cd scripts && npm install
