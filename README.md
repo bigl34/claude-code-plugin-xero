@@ -3,7 +3,7 @@
 
 Xero accounting operations including invoices, contacts, payments, reports, quotes, and more via direct API
 
-![Version](https://img.shields.io/badge/version-2.2.1-blue) ![License: MIT](https://img.shields.io/badge/License-MIT-green) ![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
+![Version](https://img.shields.io/badge/version-2.3.0-blue) ![License: MIT](https://img.shields.io/badge/License-MIT-green) ![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
 
 ## Features
 
@@ -37,14 +37,6 @@ node scripts/dist/cli.js get-connections
    ```bash
    cd scripts && npm install
    ```
-
-## Configuration
-
-Copy `config.template.json` to `config.json` and fill in the required values:
-
-| Field | Placeholder |
-|-------|-------------|
-| `credentials_path` | `/path/to/your/credentials` |
 
 ## Available Commands
 
@@ -87,49 +79,49 @@ Copy `config.template.json` to `config.json` and fill in the required values:
 
 ```bash
 # Discover tenant IDs (run first time!)
-node /Users/USER/node scripts/dist/cli.js get-connections
+node $HOME/node scripts/dist/cli.js get-connections
 
 # List all invoices
-node /Users/USER/node scripts/dist/cli.js list-invoices
+node $HOME/node scripts/dist/cli.js list-invoices
 
 # Get specific invoice
-node /Users/USER/node scripts/dist/cli.js get-invoice --id "12345678-1234-1234-1234-123456789012"
+node $HOME/node scripts/dist/cli.js get-invoice --id "12345678-1234-1234-1234-123456789012"
 
 # Create an invoice
-node /Users/USER/node scripts/dist/cli.js create-invoice --contact "ACME Corp" --amount 500 --description "Product sale"
+node $HOME/node scripts/dist/cli.js create-invoice --contact "ACME Corp" --amount 500 --description "Product sale"
 
 # List contacts
-node /Users/USER/node scripts/dist/cli.js list-contacts
+node $HOME/node scripts/dist/cli.js list-contacts
 
 # Create contact
-node /Users/USER/node scripts/dist/cli.js create-contact --name "John Smith" --email "john@example.com"
+node $HOME/node scripts/dist/cli.js create-contact --name "John Smith" --email "john@example.com"
 
 # Get profit and loss
-node /Users/USER/node scripts/dist/cli.js get-profit-and-loss --from-date "2024-01-01" --to-date "2024-12-31"
+node $HOME/node scripts/dist/cli.js get-profit-and-loss --from-date "2024-01-01" --to-date "2024-12-31"
 
 # Get trial balance
-node /Users/USER/node scripts/dist/cli.js get-trial-balance --date "2024-12-31"
+node $HOME/node scripts/dist/cli.js get-trial-balance --date "2024-12-31"
 
 # List chart of accounts (uses cache by default)
-node /Users/USER/node scripts/dist/cli.js list-accounts
+node $HOME/node scripts/dist/cli.js list-accounts
 
 # List accounts bypassing cache
-node /Users/USER/node scripts/dist/cli.js list-accounts --no-cache
+node $HOME/node scripts/dist/cli.js list-accounts --no-cache
 
 # Get aged receivables
-node /Users/USER/node scripts/dist/cli.js get-aged-receivables
+node $HOME/node scripts/dist/cli.js get-aged-receivables
 
 # List payments
-node /Users/USER/node scripts/dist/cli.js list-payments
+node $HOME/node scripts/dist/cli.js list-payments
 
 # Clear cache
-node /Users/USER/node scripts/dist/cli.js clear-cache
+node $HOME/node scripts/dist/cli.js clear-cache
 
 # List quotes
-node /Users/USER/node scripts/dist/cli.js list-quotes
+node $HOME/node scripts/dist/cli.js list-quotes
 
 # List overpayments (customer prepayments)
-node /Users/USER/node scripts/dist/cli.js list-overpayments
+node $HOME/node scripts/dist/cli.js list-overpayments
 ```
 
 ## How It Works
