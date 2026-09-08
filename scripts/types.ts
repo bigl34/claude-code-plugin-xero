@@ -1,15 +1,9 @@
-/**
- * Xero API TypeScript Types
- *
- * Type definitions for the Xero Accounting REST API.
- * Based on https://developer.xero.com/documentation/api/accounting/overview
- */
 
-// ==================== Configuration ====================
 
 export interface XeroConfig {
   clientId: string;
   clientSecret: string;
+  tenantId?: string;
 }
 
 export interface ConfigFile {
@@ -20,11 +14,11 @@ export interface ConfigFile {
     env?: {
       XERO_CLIENT_ID?: string;
       XERO_CLIENT_SECRET?: string;
+      XERO_TENANT_ID?: string;
     };
   };
 }
 
-// ==================== Token ====================
 
 export interface TokenCache {
   accessToken: string;
@@ -40,7 +34,6 @@ export interface TokenResponse {
   error_description?: string;
 }
 
-// ==================== Connections ====================
 
 export interface XeroConnection {
   id: string;
@@ -52,7 +45,6 @@ export interface XeroConnection {
   updatedDateUtc: string;
 }
 
-// ==================== Contact ====================
 
 export interface Contact {
   ContactID: string;
@@ -131,7 +123,6 @@ export interface Balance {
   Overdue?: number;
 }
 
-// ==================== Invoice ====================
 
 export interface Invoice {
   InvoiceID: string;
@@ -182,6 +173,7 @@ export interface Invoice {
 export interface ContactRef {
   ContactID: string;
   Name?: string;
+  EmailAddress?: string;
 }
 
 export interface LineItem {
@@ -201,10 +193,10 @@ export interface LineItem {
   RepeatingInvoiceID?: string;
 }
 
-// ==================== Payment ====================
 
 export interface Payment {
   PaymentID: string;
+  BatchPaymentID?: string;
   Date?: string;
   BankAccountNumber?: string;
   Particulars?: string;
@@ -225,6 +217,7 @@ export interface Payment {
   Overpayment?: OverpaymentRef;
   Account?: AccountRef;
   IsReconciled?: boolean;
+  ReconciledAfterAmbiguousWrite?: boolean;
 }
 
 export interface InvoiceRef {
@@ -251,7 +244,6 @@ export interface AccountRef {
   Name?: string;
 }
 
-// ==================== Account ====================
 
 export interface Account {
   AccountID: string;
@@ -303,7 +295,6 @@ export interface Account {
   ValidationErrors?: ValidationError[];
 }
 
-// ==================== Credit Note ====================
 
 export interface CreditNote {
   CreditNoteID: string;
@@ -339,6 +330,7 @@ export interface CreditNote {
   HasAttachments?: boolean;
   HasErrors?: boolean;
   ValidationErrors?: ValidationError[];
+  ReconciledAfterAmbiguousWrite?: boolean;
 }
 
 export interface Allocation {
@@ -353,7 +345,6 @@ export interface Allocation {
   ValidationErrors?: ValidationError[];
 }
 
-// ==================== Bank Transaction ====================
 
 export interface BankTransaction {
   BankTransactionID: string;
@@ -389,7 +380,6 @@ export interface BankTransaction {
   ValidationErrors?: ValidationError[];
 }
 
-// ==================== Prepayment / Overpayment ====================
 
 export interface Prepayment {
   PrepaymentID: string;
@@ -435,7 +425,6 @@ export interface Overpayment {
   Reference?: string;
 }
 
-// ==================== Item ====================
 
 export interface Item {
   ItemID: string;
@@ -462,7 +451,6 @@ export interface ItemDetails {
   TaxType?: string;
 }
 
-// ==================== Tax Rate ====================
 
 export interface TaxRate {
   Name: string;
@@ -486,7 +474,6 @@ export interface TaxComponent {
   IsNonRecoverable?: boolean;
 }
 
-// ==================== Organisation ====================
 
 export interface Organisation {
   OrganisationID: string;
@@ -552,7 +539,6 @@ export interface PaymentTerm {
   Type?: "DAYSAFTERBILLDATE" | "DAYSAFTERBILLMONTH" | "OFCURRENTMONTH" | "OFFOLLOWINGMONTH";
 }
 
-// ==================== Reports ====================
 
 export interface Report {
   ReportID?: string;
@@ -588,7 +574,6 @@ export interface ReportAttribute {
   Id?: string;
 }
 
-// ==================== Quotes ====================
 
 export interface Quote {
   QuoteID: string;
@@ -623,7 +608,6 @@ export interface Quote {
   ValidationErrors?: ValidationError[];
 }
 
-// ==================== Tracking ====================
 
 export interface TrackingCategory {
   TrackingCategoryID?: string;
@@ -640,7 +624,6 @@ export interface TrackingOption {
   Status?: "ACTIVE" | "ARCHIVED" | "DELETED";
 }
 
-// ==================== Branding Theme ====================
 
 export interface BrandingTheme {
   BrandingThemeID?: string;
@@ -651,7 +634,6 @@ export interface BrandingTheme {
   CreatedDateUTC?: string;
 }
 
-// ==================== Batch Payments ====================
 
 export interface BatchPaymentDetails {
   BankAccountNumber?: string;
@@ -661,13 +643,11 @@ export interface BatchPaymentDetails {
   Reference?: string;
 }
 
-// ==================== Validation ====================
 
 export interface ValidationError {
   Message?: string;
 }
 
-// ==================== API Response Wrappers ====================
 
 export interface XeroResponse<T> {
   Id?: string;
@@ -732,12 +712,12 @@ export interface ContactGroupsResponse extends XeroResponse<ContactGroup> {
   ContactGroups: ContactGroup[];
 }
 
-// ==================== CLI Options ====================
 
 export interface ListOptions {
   page?: number;
   where?: string;
   order?: string;
+  ifModifiedSince?: string;
 }
 
 export interface ReportOptions {
@@ -750,7 +730,14 @@ export interface ReportOptions {
   contactId?: string;
 }
 
-export interface CreateInvoiceOptions {
+interface CreateInvoiceCommonOptions {
+  type?: "ACCREC" | "ACCPAY";
+  dueDate?: string;
+  reference?: string;
+  idempotencyKey: string;
+}
+
+export interface LegacyCreateInvoiceOptions extends CreateInvoiceCommonOptions {
   contactName: string;
   lineItems: Array<{
     description: string;
@@ -758,10 +745,35 @@ export interface CreateInvoiceOptions {
     unitAmount: number;
     accountCode?: string;
   }>;
-  type?: "ACCREC" | "ACCPAY";
-  dueDate?: string;
-  reference?: string;
+  contactId?: never;
+  invoiceNumber?: never;
+  date?: never;
+  status?: never;
+  lineAmountTypes?: never;
 }
+
+export interface AdvancedCreateInvoiceOptions extends CreateInvoiceCommonOptions {
+  contactId: string;
+  lineItems: Array<{
+    Description: string;
+    Quantity: number;
+    UnitAmount: number;
+    AccountCode: string;
+    TaxType: string;
+    ItemCode?: string;
+    DiscountRate?: number;
+    DiscountAmount?: number;
+  }>;
+  invoiceNumber?: string;
+  date?: string;
+  status?: "DRAFT" | "SUBMITTED" | "AUTHORISED";
+  lineAmountTypes?: "Exclusive" | "Inclusive" | "NoTax";
+  contactName?: never;
+}
+
+export type CreateInvoiceOptions =
+  | LegacyCreateInvoiceOptions
+  | AdvancedCreateInvoiceOptions;
 
 export interface CreateContactOptions {
   name: string;
@@ -769,13 +781,78 @@ export interface CreateContactOptions {
   firstName?: string;
   lastName?: string;
   phone?: string;
+  idempotencyKey?: string;
 }
 
-export interface CreatePaymentOptions {
+interface CreatePaymentCommonOptions {
   invoiceId: string;
-  accountCode: string;
   amount: number;
-  date?: string;
+  date: string;
   reference?: string;
   currencyRate?: number;
+  idempotencyKey: string;
+}
+
+export type CreatePaymentOptions = CreatePaymentCommonOptions & (
+  | { accountCode: string; accountId?: never }
+  | { accountId: string; accountCode?: never }
+);
+
+interface CreateCreditNoteCommonOptions {
+  contactId: string;
+  reference?: string;
+}
+
+export interface LegacyCreateCreditNoteOptions extends CreateCreditNoteCommonOptions {
+  amount: number;
+  description: string;
+  accountCode?: string;
+  lineItems?: never;
+  creditNoteNumber?: never;
+  date?: never;
+  status?: never;
+  lineAmountTypes?: never;
+  idempotencyKey?: string;
+}
+
+export interface AdvancedCreateCreditNoteOptions extends CreateCreditNoteCommonOptions {
+  lineItems: Array<{
+    Description: string;
+    Quantity: number;
+    UnitAmount: number;
+    AccountCode: string;
+    TaxType: string;
+    ItemCode?: string;
+  }>;
+  creditNoteNumber: string;
+  date?: string;
+  status?: "DRAFT" | "AUTHORISED";
+  lineAmountTypes?: "Exclusive" | "Inclusive" | "NoTax";
+  idempotencyKey: string;
+  amount?: never;
+  description?: never;
+  accountCode?: never;
+}
+
+export type CreateCreditNoteOptions =
+  | LegacyCreateCreditNoteOptions
+  | AdvancedCreateCreditNoteOptions;
+
+export interface AllocateCreditNoteOptions {
+  tenantId?: string;
+  idempotencyKey?: string;
+}
+
+export interface CreateCreditNoteRefundOptions {
+  creditNoteId: string;
+  accountId: string;
+  amount: number;
+  date: string;
+  reference: string;
+  idempotencyKey: string;
+}
+
+export interface AuthoriseCreditNoteOptions {
+  creditNoteId: string;
+  idempotencyKey: string;
 }
