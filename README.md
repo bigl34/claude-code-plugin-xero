@@ -3,7 +3,7 @@
 
 Xero accounting operations including invoices, contacts, payments, reports, quotes, and more via direct API
 
-![Version](https://img.shields.io/badge/version-2.7.0-blue) ![License: MIT](https://img.shields.io/badge/License-MIT-green) ![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
+![Version](https://img.shields.io/badge/version-2.7.1-blue) ![License: MIT](https://img.shields.io/badge/License-MIT-green) ![Node >= 18](https://img.shields.io/badge/node-%3E%3D18-brightgreen)
 
 ## Features
 

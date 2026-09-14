@@ -1,7 +1,6 @@
 ---
 name: xero-accounting-manager
 description: Use this agent for Xero accounting operations including invoices, contacts, payments, and financial reports. This agent has exclusive access to the Xero API.
-model: claude-opus-4-6
 color: info
 mode: subagent
 ---
