@@ -19,6 +19,7 @@ import type {
   Address,
   BankTransaction,
   Contact,
+  ContactRef,
   ContactGroup,
   CreditNote,
   Invoice,
@@ -210,6 +211,15 @@ function wrapPayment(payment: Payment, path = "payment"): Record<string, unknown
   };
 }
 
+function wrapContactRef(contact: ContactRef | undefined, path: string): Record<string, unknown> | undefined {
+  return contact ? {
+    ContactID: contact.ContactID,
+    Name: contact.Name
+      ? wrapUntrustedField(`${path}.Contact.Name`, contact.Name, { maxChars: NAME })
+      : undefined,
+  } : undefined;
+}
+
 function wrapCreditNote(note: CreditNote, path = "creditNote"): Record<string, unknown> {
   return {
     CreditNoteID: note.CreditNoteID,
@@ -221,14 +231,7 @@ function wrapCreditNote(note: CreditNote, path = "creditNote"): Record<string, u
     Reference: note.Reference
       ? wrapUntrustedField(`${path}.Reference`, note.Reference, { maxChars: SUBJECT })
       : undefined,
-    Contact: note.Contact
-      ? {
-          ContactID: note.Contact.ContactID,
-          Name: note.Contact.Name
-            ? wrapUntrustedField(`${path}.Contact.Name`, note.Contact.Name, { maxChars: NAME })
-            : undefined,
-        }
-      : undefined,
+    Contact: wrapContactRef(note.Contact, path),
     LineItems: note.LineItems?.map((line, i) => wrapLineItem(line, `${path}.LineItems[${i}]`)),
     LineAmountTypes: note.LineAmountTypes,
     SubTotal: note.SubTotal,
@@ -255,14 +258,7 @@ function wrapBankTransaction(tx: BankTransaction, path = "bankTransaction"): Rec
     Reference: tx.Reference
       ? wrapUntrustedField(`${path}.Reference`, tx.Reference, { maxChars: SUBJECT })
       : undefined,
-    Contact: tx.Contact
-      ? {
-          ContactID: tx.Contact.ContactID,
-          Name: tx.Contact.Name
-            ? wrapUntrustedField(`${path}.Contact.Name`, tx.Contact.Name, { maxChars: NAME })
-            : undefined,
-        }
-      : undefined,
+    Contact: wrapContactRef(tx.Contact, path),
     BankAccount: tx.BankAccount
       ? {
           AccountID: tx.BankAccount.AccountID,
@@ -304,14 +300,7 @@ function wrapQuote(quote: Quote, path = "quote"): Record<string, unknown> {
     Summary: quote.Summary
       ? wrapUntrustedField(`${path}.Summary`, quote.Summary, { maxChars: BODY })
       : undefined,
-    Contact: quote.Contact
-      ? {
-          ContactID: quote.Contact.ContactID,
-          Name: quote.Contact.Name
-            ? wrapUntrustedField(`${path}.Contact.Name`, quote.Contact.Name, { maxChars: NAME })
-            : undefined,
-        }
-      : undefined,
+    Contact: wrapContactRef(quote.Contact, path),
     LineItems: quote.LineItems?.map((line, i) => wrapLineItem(line, `${path}.LineItems[${i}]`)),
     LineAmountTypes: quote.LineAmountTypes,
     SubTotal: quote.SubTotal,
@@ -325,64 +314,35 @@ function wrapQuote(quote: Quote, path = "quote"): Record<string, unknown> {
   };
 }
 
-function wrapPrepayment(pp: Prepayment, path = "prepayment"): Record<string, unknown> {
+function wrapSettlement(record: Prepayment | Overpayment, idKey: "PrepaymentID" | "OverpaymentID", path: string): Record<string, unknown> {
   return {
-    PrepaymentID: pp.PrepaymentID,
-    Type: pp.Type,
-    Status: pp.Status,
-    Date: pp.Date,
-    Reference: pp.Reference
-      ? wrapUntrustedField(`${path}.Reference`, pp.Reference, { maxChars: SUBJECT })
+    [idKey]: "PrepaymentID" in record ? record.PrepaymentID : record.OverpaymentID,
+    Type: record.Type,
+    Status: record.Status,
+    Date: record.Date,
+    Reference: record.Reference
+      ? wrapUntrustedField(`${path}.Reference`, record.Reference, { maxChars: SUBJECT })
       : undefined,
-    Contact: pp.Contact
-      ? {
-          ContactID: pp.Contact.ContactID,
-          Name: pp.Contact.Name
-            ? wrapUntrustedField(`${path}.Contact.Name`, pp.Contact.Name, { maxChars: NAME })
-            : undefined,
-        }
-      : undefined,
-    LineItems: pp.LineItems?.map((line, i) => wrapLineItem(line, `${path}.LineItems[${i}]`)),
-    SubTotal: pp.SubTotal,
-    TotalTax: pp.TotalTax,
-    Total: pp.Total,
-    RemainingCredit: pp.RemainingCredit,
-    AppliedAmount: pp.AppliedAmount,
-    CurrencyCode: pp.CurrencyCode,
-    CurrencyRate: pp.CurrencyRate,
-    UpdatedDateUTC: pp.UpdatedDateUTC,
-    HasAttachments: pp.HasAttachments,
+    Contact: wrapContactRef(record.Contact, path),
+    LineItems: record.LineItems?.map((line, i) => wrapLineItem(line, `${path}.LineItems[${i}]`)),
+    SubTotal: record.SubTotal,
+    TotalTax: record.TotalTax,
+    Total: record.Total,
+    RemainingCredit: record.RemainingCredit,
+    AppliedAmount: record.AppliedAmount,
+    CurrencyCode: record.CurrencyCode,
+    CurrencyRate: record.CurrencyRate,
+    UpdatedDateUTC: record.UpdatedDateUTC,
+    HasAttachments: record.HasAttachments,
   };
 }
 
+function wrapPrepayment(pp: Prepayment, path = "prepayment"): Record<string, unknown> {
+  return wrapSettlement(pp, "PrepaymentID", path);
+}
+
 function wrapOverpayment(op: Overpayment, path = "overpayment"): Record<string, unknown> {
-  return {
-    OverpaymentID: op.OverpaymentID,
-    Type: op.Type,
-    Status: op.Status,
-    Date: op.Date,
-    Reference: op.Reference
-      ? wrapUntrustedField(`${path}.Reference`, op.Reference, { maxChars: SUBJECT })
-      : undefined,
-    Contact: op.Contact
-      ? {
-          ContactID: op.Contact.ContactID,
-          Name: op.Contact.Name
-            ? wrapUntrustedField(`${path}.Contact.Name`, op.Contact.Name, { maxChars: NAME })
-            : undefined,
-        }
-      : undefined,
-    LineItems: op.LineItems?.map((line, i) => wrapLineItem(line, `${path}.LineItems[${i}]`)),
-    SubTotal: op.SubTotal,
-    TotalTax: op.TotalTax,
-    Total: op.Total,
-    RemainingCredit: op.RemainingCredit,
-    AppliedAmount: op.AppliedAmount,
-    CurrencyCode: op.CurrencyCode,
-    CurrencyRate: op.CurrencyRate,
-    UpdatedDateUTC: op.UpdatedDateUTC,
-    HasAttachments: op.HasAttachments,
-  };
+  return wrapSettlement(op, "OverpaymentID", path);
 }
 
 function wrapAccount(account: Account, path = "account"): Record<string, unknown> {

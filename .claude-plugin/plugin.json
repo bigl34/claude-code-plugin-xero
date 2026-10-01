@@ -1,6 +1,6 @@
 {
   "name": "xero-accounting-manager",
-  "version": "2.7.1",
+  "version": "2.7.2",
   "description": "Xero accounting operations including invoices, contacts, payments, reports, quotes, and more via direct API",
   "repository": "https://github.com/bigl34/claude-code-plugin-xero"
 }

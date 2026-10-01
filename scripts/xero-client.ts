@@ -196,7 +196,6 @@ export class XeroClient {
   private tokenCache: TokenCache | null = null;
   private tenantId: string | null = null;
   private tenantIdValidated: boolean = false;
-  private cacheDisabled: boolean = false;
   private fetchImpl: typeof fetch;
   private paidInvoiceEditStore: PaidInvoiceEditStore;
 
@@ -235,12 +234,10 @@ export class XeroClient {
 
 
   disableCache(): void {
-    this.cacheDisabled = true;
     cache.disable();
   }
 
   enableCache(): void {
-    this.cacheDisabled = false;
     cache.enable();
   }
 
@@ -1129,7 +1126,7 @@ export class XeroClient {
         );
         return response.Contacts || [];
       },
-      { ttl: TTL.HOUR, bypassCache: this.cacheDisabled }
+      { ttl: TTL.HOUR }
     );
   }
 
@@ -1240,7 +1237,7 @@ export class XeroClient {
         );
         return response.Accounts || [];
       },
-      { ttl: TTL.DAY, bypassCache: this.cacheDisabled }
+      { ttl: TTL.DAY }
     );
   }
 
@@ -1997,7 +1994,7 @@ export class XeroClient {
         );
         return response.TaxRates || [];
       },
-      { ttl: TTL.DAY, bypassCache: this.cacheDisabled }
+      { ttl: TTL.DAY }
     );
   }
 
@@ -2016,7 +2013,7 @@ export class XeroClient {
         );
         return response.Organisations?.[0] || null;
       },
-      { ttl: TTL.DAY, bypassCache: this.cacheDisabled }
+      { ttl: TTL.DAY }
     );
   }
 
